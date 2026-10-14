@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Old House · Monster Hide & Seek</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+:root{--ink:#30244e;--purple:#38285f;--lav:#a990e2;--cream:#fff5dc;--gold:#ffdd72;--green:#abeaa2;--panel:#fffaf0}*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 10%,#7158a2,transparent 32%),linear-gradient(140deg,#231937,#49356e);font:700 18px Nunito,system-ui,sans-serif;color:var(--ink);min-height:100vh}button,input,select{font:inherit}button{cursor:pointer}.shell{width:min(1024px,95vw);margin:28px auto;background:#fff9ed;border:6px solid #e4d2fd;border-radius:26px;box-shadow:0 20px 65px #110c2f99;overflow:hidden;min-height:680px}.top{background:var(--purple);color:#fff;padding:16px 28px;display:flex;gap:14px;justify-content:space-between;align-items:center;flex-wrap:wrap}.brand{font:600 24px Fredoka,sans-serif}.pill{background:#67528e;border-radius:99px;padding:7px 14px;font-size:14px}.content{padding:26px 34px 34px;max-width:950px;margin:auto}.screen{display:none}.screen.active{display:block}h1,h2,h3{font-family:Fredoka,sans-serif;margin:5px 0 14px;line-height:1.15}h1{font-size:clamp(36px,6vw,63px)}h2{font-size:clamp(28px,4.5vw,44px)}.gold{color:#c57b05}.subtitle{font-size:20px}.center{text-align:center}.tag{display:inline-block;background:#e7dbfb;padding:8px 14px;border-radius:30px;color:#554078;font-size:14px}.fields{max-width:510px;margin:22px auto;display:grid;gap:13px;text-align:left}.fields label{font-size:15px}.fields input{width:100%;background:white;border:3px solid #d4c5ee;border-radius:13px;padding:13px 15px;margin-top:5px;color:var(--ink)}.btn{border:0;background:var(--gold);color:#34234d;border-radius:16px;padding:13px 27px;font:700 21px Fredoka,sans-serif;box-shadow:0 5px 0 #d2a642;transition:transform .1s,filter .1s}.btn:hover{filter:brightness(1.05);transform:translateY(-2px)}.btn:active{transform:translateY(2px)}.btn.secondary{background:#ded0f7;box-shadow:0 5px 0 #af9ccc}.btn.green{background:#afe9a9;box-shadow:0 5px 0 #77b579}.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center;justify-content:center}.scene{position:relative;overflow:hidden;width:min(740px,100%);height:330px;margin:16px auto 17px;border-radius:22px;border:5px solid #ad93d5;background:linear-gradient(#ba9aca 0 69%,#795e71 69% 100%)}.scene::before{content:'';position:absolute;inset:10px;border:3px solid #ffffff36;border-radius:16px;pointer-events:none}.window{position:absolute;left:7%;top:11%;width:98px;height:118px;border:9px solid #634166;border-radius:50px 50px 8px 8px;background:linear-gradient(#564789,#a88abf);box-shadow:inset 0 0 0 3px #e9cfa8}.window:after{content:'✦';position:absolute;left:32px;top:12px;color:#ffefac;font-size:28px}.dec{position:absolute;right:7%;top:12%;font-size:55px;opacity:.64}.thing{position:absolute;left:50%;transform:translateX(-50%);bottom:42px;z-index:2}.monster{position:absolute;width:112px;height:111px;left:50%;bottom:60px;transform:translateX(-50%);z-index:3;filter:drop-shadow(0 7px 2px #32213e38)}.monster .body{position:absolute;inset:19px 5px 3px;background:#89df85;border-radius:45% 45% 40% 40%;border:5px solid #3e865e}.monster .horn{position:absolute;top:3px;width:24px;height:38px;background:#c8f7ac;border:4px solid #3e865e;border-radius:60% 20%;z-index:-1}.monster .horn.a{left:16px;transform:rotate(-25deg)}.monster .horn.b{right:16px;transform:rotate(25deg)}.monster .eye{position:absolute;top:47px;border-radius:50%;background:white;width:23px;height:28px;border:2px solid #2a4f46}.monster .eye.a{left:24px}.monster .eye.b{right:24px}.monster .eye:after{content:'';display:block;background:#2c2752;width:10px;height:14px;border-radius:50%;margin:8px auto}.monster .mouth{position:absolute;top:80px;left:46px;width:20px;height:10px;border-radius:0 0 20px 20px;background:#352645}.monster .arm{position:absolute;top:67px;width:25px;height:14px;background:#82db81;border:4px solid #3e865e;border-radius:22px}.monster .arm.a{left:-5px;transform:rotate(35deg)}.monster .arm.b{right:-5px;transform:rotate(-35deg)}.chest{width:235px;height:125px;background:#9b5632;border:9px solid #593528;border-radius:9px 9px 16px 16px;box-shadow:inset 0 0 0 9px #b97b46}.chest:before{content:'';position:absolute;width:239px;height:36px;left:-11px;top:-39px;border-radius:70% 70% 8px 8px;background:#b17b48;border:8px solid #593528}.chest:after{content:'🔒';position:absolute;left:84px;top:30px;font-size:35px}.tableobj{width:260px;height:33px;background:#8e5138;border:6px solid #5c342d;border-radius:7px;bottom:120px}.tableobj:before,.tableobj:after{content:'';position:absolute;top:27px;width:20px;height:100px;background:#6a4032}.tableobj:before{left:19px}.tableobj:after{right:19px}.bed{width:310px;height:90px;background:#8d73aa;border:9px solid #5f3e77;border-radius:22px 16px 6px 6px;bottom:118px}.bed:before,.bed:after{content:'';position:absolute;top:74px;width:18px;height:105px;background:#64435f}.bed:before{left:6px}.bed:after{right:6px}.bed .blanket{position:absolute;inset:15px;background:#d6baec;border-radius:13px}.clock{width:103px;height:245px;background:#86583d;border:9px solid #53342e;border-radius:46px 46px 12px 12px;bottom:35px}.clock:before{content:'🕒';font-size:63px;position:absolute;left:9px;top:13px}.barrel{width:179px;height:158px;background:repeating-linear-gradient(90deg,#895235 0 27px,#b07848 27px 51px);border:9px solid #66412e;border-radius:29px 29px 35px 35px}.barrel:before,.barrel:after{content:'';position:absolute;left:-8px;right:-8px;height:13px;background:#6d6681}.barrel:before{top:35px}.barrel:after{bottom:31px}.bookcase{position:absolute;width:110px;height:245px;bottom:37px;background:repeating-linear-gradient(0deg,#805333 0px,#805333 11px,#4e315d 11px,#4e315d 50px);border:10px solid #69482f;border-radius:7px;box-shadow:inset 0 0 0 5px #b88652}.bookcase:before{content:'📚 📚\A📚 📚\A📚 📚\A📚 📚';white-space:pre;position:absolute;top:10px;left:8px;font-size:22px;line-height:50px}.bookcase.left{left:19%}.bookcase.right{right:19%}.in .monster{bottom:93px;z-index:1}.in .chest{z-index:4}.on .monster{bottom:145px}.under .monster{bottom:44px;z-index:1;transform:translateX(-50%) scale(.78)}.under .bed{z-index:4}.front .monster{bottom:30px;z-index:4;left:53%}.front .clock{left:50%;z-index:2}.behind .monster{bottom:100px;left:57%;z-index:1}.behind .barrel{z-index:4}.between .monster{bottom:43px}.question{font:600 clamp(22px,4vw,30px) Fredoka,sans-serif}.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin:17px auto;max-width:740px}.option{padding:16px 10px;border-radius:16px;border:3px solid #bea5e3;background:#eee5ff;color:#392852;font:600 clamp(17px,2.3vw,23px) Fredoka;min-height:77px}.option:hover,.option:focus-visible{background:#ffebb0;border-color:#d6ac44}.highlight{background:#ffe184;padding:1px 7px;border-radius:8px}.words{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin:17px 0}.words span{background:#e6d7fa;border-radius:12px;padding:9px 14px}.progress{height:13px;background:#e8dafa;border-radius:12px;overflow:hidden;margin:10px auto;max-width:740px}.fill{background:#7ecf8d;height:100%;transition:width .25s}.feedback{padding:15px 8px}.face{font-size:90px}.small{color:#675981;font-size:14px}.summary{background:#eee5fa;border-radius:18px;padding:18px;max-width:720px;margin:18px auto;text-align:left}.resultline{display:flex;justify-content:space-between;padding:9px;border-bottom:1px solid #cab9dd;gap:20px}.resultline:last-child{border:0}.score{font:700 44px Fredoka;color:#437745}.teacher{margin-top:20px;border-top:2px dashed #c4b0de;padding-top:15px}.helper{font-size:14px;font-weight:600;color:#756789}#confetti{font-size:39px;letter-spacing:10px}@media(max-width:650px){.content{padding:20px 13px}.shell{width:100%;margin:0;border:0;border-radius:0;min-height:100vh}.top{padding:13px}.brand{font-size:18px}.scene{height:260px}.scene .thing,.scene .monster,.scene .bookcase{scale:.78;transform-origin:bottom center}.scene .monster,.scene .thing{translate:0 7px}.options{grid-template-columns:1fr}.option{min-height:53px}.bookcase.left{left:8%}.bookcase.right{right:8%}.subtitle{font-size:17px}}@media print{body{background:white}.shell{border:none;box-shadow:none}.top,.btn,.option{display:none!important}.screen{display:none!important}#finish{display:block!important}}
+
+.header-right{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.sound-toggle{border:2px solid #d9c5f4;background:#76629e;color:white;border-radius:15px;padding:8px 12px;font:700 15px Nunito;cursor:pointer}
+.sound-toggle:hover{background:#947fba}
+.level2-heading{font-size:clamp(22px,3.2vw,32px);margin:17px 0 8px}
+.placement-scene{touch-action:pan-y;user-select:none}
+.placement-scene .drop-target{position:absolute;z-index:9;transform:translate(-50%,-50%);width:58px;height:58px;display:grid;place-items:center;border-radius:50%;border:4px dashed #fff;outline:3px solid #d8a331;background:#ffe087df;color:#392852;font:700 24px Fredoka;box-shadow:0 3px 15px #37264c66;cursor:pointer}
+.placement-scene .drop-target:hover,.placement-scene .drop-target:focus-visible{background:#fff6b4;scale:1.12}
+.placement-scene .drop-target.incorrect{background:#ef9aab;animation:wiggle .3s}
+.placement-scene .drop-target.correct{background:#a5edaa;font-size:34px;border-style:solid;width:74px;height:74px}
+@keyframes wiggle{0%,100%{rotate:0deg}25%{rotate:-10deg}75%{rotate:10deg}}
+.monster-tray{display:flex;align-items:center;justify-content:center;gap:13px;flex-wrap:wrap;background:#eae0f9;padding:12px;border-radius:17px;max-width:740px;margin:0 auto}
+.drag-monster{border:3px dashed #8a6cbd;background:#d0efc3;border-radius:19px;font-size:44px;width:90px;height:74px;cursor:grab;touch-action:none;user-select:none}
+.drag-monster.chosen{outline:5px solid #f7cf63}
+.placement-message{min-height:31px;font:600 20px Fredoka;color:#5c4077}
+@media(max-width:650px){.placement-scene .drop-target{width:52px;height:52px}.sound-toggle{font-size:13px}}
+@media print{.sound-toggle{display:none}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header class="top"><div class="brand">🏚️ The Old House · Monster Hide & Seek</div><div class="header-right"><div id="headerStatus" class="pill">Year 2 English · Prepositions of Place</div><button id="soundToggle" class="sound-toggle" type="button" aria-pressed="false">🔇 Music off</button></div></header>
+<main class="content">
+<section id="welcome" class="screen active center"><div class="tag">Welcome, little explorer!</div><h1>👻 The Old House<br><span class="gold">Monster Hide & Seek</span></h1><p class="subtitle">A cute monster is hiding in six rooms. Can you find it?</p><div class="words"><span>in</span><span>on</span><span>under</span><span>in front of</span><span>behind</span><span>between</span></div><form id="identity" class="fields"><label>🧭 Monster Explorer Name<input id="studentName" maxlength="70" required placeholder="Write your name"></label><label>🏫 Class / Section<input id="studentClass" maxlength="60" required placeholder="e.g. 2 Bestari"></label><label>📅 Date<input id="studentDate" type="date" required></label><button class="btn" type="submit">Start exploring →</button></form><p class="helper">Listen, read, and choose the correct hiding place!</p></section>
+<section id="tour" class="screen center"><div class="tag" id="tourRoom"></div><h2>The Old House Tour</h2><div id="tourScene" class="scene"></div><p class="question" id="tourText"></p><div class="row"><button id="tourBack" class="btn secondary">← Back</button><button id="tourNext" class="btn">Next →</button></div><p class="small" id="tourCount"></p></section>
+<section id="intro" class="screen center"><h1>🎮 Monster Hide & Seek!</h1><p class="subtitle">Look at the picture. Read the sentence. Choose the correct word!</p><div class="words"><span>in</span><span>on</span><span>under</span><span>in front of</span><span>behind</span><span>between</span></div><p>You can try again if you make a mistake.<br>Your first answer counts towards your score.</p><button class="btn" id="play">Play now →</button></section>
+<section id="game" class="screen center"><div class="tag" id="gameRoom"></div><div class="progress"><div id="bar" class="fill"></div></div><div id="gameScene" class="scene"></div><p class="question" id="gameText"></p><div class="options" id="options"></div><p class="small" id="qCount"></p></section>
+<section id="feedback" class="screen center"><div class="feedback"><div class="face" id="feedbackFace"></div><h1 id="feedbackTitle"></h1><p class="subtitle" id="feedbackText"></p><button class="btn" id="feedbackButton"></button></div></section>
+<section id="level2intro" class="screen center"><div class="tag">Level 2 · Monster Mover</div><h1>🧩 Put Me in My Place!</h1><p class="subtitle">Read the sentence. Drag the little monster to the correct glowing spot!</p><p>On a phone or tablet, tap the monster and then tap a spot.</p><div class="words"><span>in</span><span>on</span><span>under</span><span>in front of</span><span>behind</span><span>between</span></div><button class="btn green" id="beginLevel2">Start level 2 →</button></section>
+<section id="level2" class="screen center"><div class="tag" id="level2Room"></div><div class="progress"><div id="level2Bar" class="fill"></div></div><h2 class="level2-heading" id="placementInstruction"></h2><div id="placementScene" class="scene placement-scene" aria-label="Choose a spot for the monster"></div><div class="monster-tray"><span>Move me!</span><button id="dragMonster" class="drag-monster" type="button" aria-label="Drag the monster, or tap then select a spot">👾</button><span class="helper">Drag or tap, then pick a glowing spot</span></div><p id="placementMessage" class="placement-message" role="status" aria-live="polite"></p><div class="row"><button class="btn secondary" id="placementNext" style="display:none">Next room →</button></div><p class="small" id="level2Count"></p></section>
+<section id="finish" class="screen center"><div id="confetti">⭐ 🎉 ⭐</div><h1>Hooray, Monster Explorer!</h1><p class="subtitle">You found the monster and put it in the right place!</p><p id="pupilResult"></p><div class="score" id="score"></div><p class="small">Combined first-attempt score across both levels (out of 12).</p><div id="summary" class="summary"></div><div class="row"><button class="btn green" id="download">⬇ Download results (CSV)</button><button class="btn secondary" id="print">🖨 Print / Save PDF</button><button class="btn" id="replay">↻ Play again</button></div><div class="teacher"><h3>For teachers</h3><p class="helper">This game records each pupil's six first answers and retry count within this session. Download the CSV to store the results. It does <strong>not</strong> automatically send data to Canva Sheets or any online database.</p></div></section>
+</main></div>
+<script>
+'use strict';
+const lessons=[
+{room:'Attic',preposition:'in',object:'the old chest',scene:'in',element:'<div class="thing chest"></div>',choices:['on','in','under'],hint:'The monster is inside the chest.'},
+{room:'Living room',preposition:'on',object:'the table',scene:'on',element:'<div class="thing tableobj"></div>',choices:['on','under','behind'],hint:'The monster is on top of the table.'},
+{room:'Bedroom',preposition:'under',object:'the bed',scene:'under',element:'<div class="thing bed"><div class="blanket"></div></div>',choices:['in','on','under'],hint:'The monster is below the bed.'},
+{room:'Hallway',preposition:'in front of',object:'the clock',scene:'front',element:'<div class="thing clock"></div>',choices:['behind','in front of','between'],hint:'The monster is closer to us than the clock.'},
+{room:'Cellar',preposition:'behind',object:'the barrel',scene:'behind',element:'<div class="thing barrel"></div>',choices:['behind','in front of','on'],hint:'The monster is at the back of the barrel.'},
+{room:'Library',preposition:'between',object:'the two bookcases',scene:'between',element:'<div class="bookcase left"></div><div class="bookcase right"></div>',choices:['under','in','between'],hint:'The monster is in the middle of two bookcases.'}
+];
+let tourIndex=0,questionIndex=0,answers=[],firstAttempts=[],retryCounts=[],pupil={};
+let placementIndex=0,placementFirst=[],placementAttempts=[],placementRetries=[],placementSolved=false,selectedMonster=false;
+const $=id=>document.getElementById(id);
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));window.scrollTo({top:0,behavior:'instant'})}
+const monster='<div class="monster"><i class="horn a"></i><i class="horn b"></i><div class="body"></div><div class="eye a"></div><div class="eye b"></div><div class="mouth"></div><div class="arm a"></div><div class="arm b"></div></div>';
+function makeScene(entry){return `<div class="window"></div><div class="dec">✧</div><div class="${entry.scene}">${monster}${entry.element}</div>`}
+$('studentDate').value=new Date().toLocaleDateString('en-CA');
+$('identity').addEventListener('submit',e=>{e.preventDefault();pupil={name:$('studentName').value.trim(),className:$('studentClass').value.trim(),date:$('studentDate').value};if(!pupil.name||!pupil.className||!pupil.date)return;$('headerStatus').textContent=`Explorer: ${pupil.name}`;tourIndex=0;renderTour()});
+function renderTour(){const l=lessons[tourIndex];$('tourRoom').textContent=l.room;$('tourScene').innerHTML=makeScene(l);$('tourText').innerHTML=`The monster is <span class="highlight">${l.preposition}</span> ${l.object}.`;$('tourCount').textContent=`Learning ${tourIndex+1} of 6`;$('tourBack').style.visibility=tourIndex===0?'hidden':'visible';$('tourNext').textContent=tourIndex===5?'Start the game →':'Next room →';show('tour')}
+$('tourBack').onclick=()=>{tourIndex--;renderTour()};$('tourNext').onclick=()=>{if(tourIndex===5)show('intro');else{tourIndex++;renderTour()}};
+$('play').onclick=startGame;
+function startGame(){placementIndex=0;placementFirst=Array(6).fill(false);placementAttempts=Array(6).fill(null);placementRetries=Array(6).fill(0);questionIndex=0;answers=Array(6).fill(null);firstAttempts=Array(6).fill(false);retryCounts=Array(6).fill(0);renderQuestion()}
+function renderQuestion(){const l=lessons[questionIndex];$('gameRoom').textContent=`Room ${questionIndex+1} · ${l.room}`;$('bar').style.width=`${questionIndex/6*100}%`;$('gameScene').innerHTML=makeScene(l);$('gameText').textContent=`The monster is _____ ${l.object}.`;$('qCount').textContent=`Question ${questionIndex+1} of 6`;$('options').innerHTML='';l.choices.forEach((choice,i)=>{const button=document.createElement('button');button.className='option';button.textContent=`${'ABC'[i]}. ${choice}`;button.addEventListener('click',()=>choose(choice));$('options').appendChild(button)});show('game')}
+function choose(choice){const l=lessons[questionIndex];if(answers[questionIndex]===null){answers[questionIndex]=choice;firstAttempts[questionIndex]=choice===l.preposition}const correct=choice===l.preposition;playEffect(correct?'right':'wrong');if(!correct)retryCounts[questionIndex]++;$('feedbackFace').textContent=correct?'🥳':'🤔';$('feedbackTitle').textContent=correct?'You Found Me!':'Oops! Try Again!';$('feedbackText').textContent=correct?`The monster is ${l.preposition} ${l.object}.`:l.hint;$('feedbackButton').textContent=correct?(questionIndex===5?'Go to level 2 →':'Next room →'):'Try again ↻';$('feedbackButton').onclick=correct?()=>{if(questionIndex===5)show('level2intro');else{questionIndex++;renderQuestion()}}:renderQuestion;show('feedback')}
+function renderFinish(){
+ const one=firstAttempts.filter(Boolean).length,two=placementFirst.filter(Boolean).length;
+ $('pupilResult').textContent=`${pupil.name} · ${pupil.className} · ${pupil.date}`;
+ $('score').textContent=`${one+two} / 12`;
+ $('summary').innerHTML=`<h3>Level 1 · Find the monster (${one}/6)</h3>`+lessons.map((l,i)=>`<div class="resultline"><span><strong>${l.preposition}</strong> · ${l.room}</span><span>${firstAttempts[i]?'✅':'🔁'} (${retryCounts[i]} retries)</span></div>`).join('')+`<h3>Level 2 · Put the monster in place (${two}/6)</h3>`+lessons.map((l,i)=>`<div class="resultline"><span><strong>${l.preposition}</strong> · ${l.room}</span><span>${placementFirst[i]?'✅':'🔁'} (${placementRetries[i]} retries)</span></div>`).join('');
+ playEffect('win');show('finish');
+}
+$('replay').onclick=startGame;$('print').onclick=()=>window.print();
+function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
+$('download').onclick=()=>{const header=['Student Name','Class','Date',...lessons.map(l=>l.preposition+' first answer'),...lessons.map(l=>l.preposition+' correct (1/0)'),'Total /6',...lessons.map(l=>l.preposition+' retries'),...lessons.map(l=>'level 2 '+l.preposition+' correct (1/0)'),...lessons.map(l=>'level 2 '+l.preposition+' retries'),'Level 2 /6','Combined /12'];const row=[pupil.name,pupil.className,pupil.date,...answers,...firstAttempts.map(Number),firstAttempts.filter(Boolean).length,...retryCounts,...placementFirst.map(Number),...placementRetries,placementFirst.filter(Boolean).length,firstAttempts.filter(Boolean).length+placementFirst.filter(Boolean).length];const csv='\uFEFF'+[header,row].map(r=>r.map(csvCell).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`monster_results_${pupil.name.replace(/[^a-z0-9_-]/gi,'_')}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),500)};
+
+/* LEVEL 2: Pupils drag or tap the monster onto a location marker.
+   All target positions use percentages so the game also works on phones. */
+const spots=[
+ [{x:50,y:64,correct:true},{x:22,y:55},{x:76,y:32}],  // in the chest
+ [{x:50,y:41,correct:true},{x:50,y:85},{x:82,y:54}],  // on the table
+ [{x:50,y:83,correct:true},{x:50,y:37},{x:84,y:63}],  // under the bed
+ [{x:50,y:74,correct:true},{x:19,y:45},{x:81,y:42}], // in front of clock
+ [{x:50,y:34,correct:true},{x:19,y:68},{x:80,y:71}], // behind barrel
+ [{x:50,y:61,correct:true},{x:11,y:61},{x:89,y:61}] // between bookcases
+];
+$('beginLevel2').onclick=()=>{placementIndex=0;placementFirst=Array(6).fill(false);placementAttempts=Array(6).fill(null);placementRetries=Array(6).fill(0);renderPlacement()};
+function renderPlacement(){
+ const l=lessons[placementIndex];placementSolved=false;selectedMonster=false;
+ $('level2Room').textContent=`Level 2 · Room ${placementIndex+1} · ${l.room}`;
+ $('level2Bar').style.width=`${placementIndex/6*100}%`;
+ $('placementInstruction').innerHTML=`Put the monster <span class="highlight">${l.preposition}</span> ${l.object}.`;
+ const stage=$('placementScene');
+ stage.innerHTML=`<div class="window"></div><div class="dec">✧</div><div class="${l.scene}">${l.element}</div>`;
+ spots[placementIndex].forEach((spot,i)=>{
+   const target=document.createElement('button');target.type='button';target.className='drop-target';
+   target.dataset.index=String(i);target.style.left=spot.x+'%';target.style.top=spot.y+'%';
+   target.textContent=String(i+1);target.setAttribute('aria-label',`Place monster at spot ${i+1}`);
+   target.onclick=()=>placeMonster(i);
+   stage.appendChild(target);
+ });
+ $('dragMonster').style.visibility='visible';$('dragMonster').classList.remove('chosen');
+ $('placementNext').style.display='none';$('placementMessage').textContent='Drag 👾 onto a numbered spot, or tap a spot.';
+ $('level2Count').textContent=`Question ${placementIndex+1} of 6`;
+ show('level2');
+}
+function placeMonster(i){
+ if(placementSolved)return;
+ const correct=Boolean(spots[placementIndex][i].correct);
+ if(placementAttempts[placementIndex]===null){
+   placementAttempts[placementIndex]=i+1;placementFirst[placementIndex]=correct;
+ }
+ if(!correct){
+   placementRetries[placementIndex]++;playEffect('wrong');
+   $('placementMessage').textContent='Oops! Try another spot!';
+   const spot=$('placementScene').querySelector(`[data-index="${i}"]`);
+   spot.classList.add('incorrect');setTimeout(()=>spot.classList.remove('incorrect'),550);
+   return;
+ }
+ placementSolved=true;playEffect('right');
+ $('placementScene').querySelectorAll('.drop-target').forEach((el,j)=>{
+   if(j!==i)el.style.display='none';
+   else{el.classList.add('correct');el.textContent='👾';el.setAttribute('aria-label','Monster in the correct place');}
+ });
+ $('dragMonster').style.visibility='hidden';
+ $('placementMessage').textContent=`You did it! The monster is ${lessons[placementIndex].preposition} ${lessons[placementIndex].object}.`;
+ $('placementNext').textContent=placementIndex===5?'See my score →':'Next room →';
+ $('placementNext').style.display='inline-block';
+}
+$('placementNext').onclick=()=>{if(placementIndex===5)renderFinish();else{placementIndex++;renderPlacement()}};
+$('dragMonster').onclick=()=>{$('dragMonster').classList.toggle('chosen');selectedMonster=!selectedMonster};
+// Pointer interactions work with mouse, touchscreen and stylus. Click-to-place remains available.
+let pointerStart=null;
+$('dragMonster').addEventListener('pointerdown',e=>{
+ if(e.button!==0)return;
+ pointerStart={x:e.clientX,y:e.clientY,id:e.pointerId};
+});
+window.addEventListener('pointerup',e=>{
+ if(!pointerStart||e.pointerId!==pointerStart.id)return;
+ const moved=Math.hypot(e.clientX-pointerStart.x,e.clientY-pointerStart.y)>12;
+ pointerStart=null;
+ if(!moved||!$('level2').classList.contains('active'))return;
+ const element=document.elementFromPoint(e.clientX,e.clientY);
+ const target=element?.closest('.drop-target');
+ if(target)placeMonster(Number(target.dataset.index));
+});
+
+/* Original looping background melody made with the Web Audio API.
+   No third-party audio files or copyright-restricted recordings. */
+let audioContext=null,melodyTimer=null,soundOn=false,step=0;
+const melody=[392,0,440,494,523,0,494,440,392,330,349,0,392,0,330,294];
+function tone(freq,duration=.16,volume=.022,type='sine'){
+ if(!soundOn||!freq)return;
+ try{
+  audioContext??=new (window.AudioContext||window.webkitAudioContext)();
+  if(audioContext.state==='suspended')audioContext.resume();
+  const osc=audioContext.createOscillator(),gain=audioContext.createGain(),now=audioContext.currentTime;
+  osc.type=type;osc.frequency.setValueAtTime(freq,now);
+  gain.gain.setValueAtTime(.0001,now);
+  gain.gain.exponentialRampToValueAtTime(volume,now+.025);
+  gain.gain.exponentialRampToValueAtTime(.0001,now+duration);
+  osc.connect(gain).connect(audioContext.destination);osc.start(now);osc.stop(now+duration+.03);
+ }catch(e){console.warn('Audio unavailable',e)}
+}
+function playEffect(kind){
+ if(!soundOn)return;
+ if(kind==='wrong')tone(220,.16,.035,'triangle');
+ else if(kind==='right'){tone(659,.16,.032,'sine');setTimeout(()=>tone(880,.20,.032,'sine'),130)}
+ else if(kind==='win'){[523,659,784,1047].forEach((f,i)=>setTimeout(()=>tone(f,.24,.035),i*145))}
+}
+function toggleMusic(){
+ soundOn=!soundOn;
+ $('soundToggle').textContent=soundOn?'🔊 Music on':'🔇 Music off';
+ $('soundToggle').setAttribute('aria-pressed',String(soundOn));
+ if(soundOn){
+  tone(523,.09,.025);
+  if(melodyTimer===null)melodyTimer=setInterval(()=>{
+   tone(melody[step%melody.length],.23,.016,'sine');step++;
+  },315);
+ }else{
+  clearInterval(melodyTimer);melodyTimer=null;
+  if(audioContext?.state==='running')audioContext.suspend();
+ }
+}
+$('soundToggle').onclick=toggleMusic;
+
+</script>
+</body></html>
