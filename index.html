@@ -36,7 +36,7 @@
 <section id="feedback" class="screen center"><div class="feedback"><div class="face" id="feedbackFace"></div><h1 id="feedbackTitle"></h1><p class="subtitle" id="feedbackText"></p><button class="btn" id="feedbackButton"></button></div></section>
 <section id="level2intro" class="screen center"><div class="tag">Level 2 · Monster Mover</div><h1>🧩 Put Me in My Place!</h1><p class="subtitle">Read the sentence. Drag the little monster to the correct glowing spot!</p><p>On a phone or tablet, tap the monster and then tap a spot.</p><div class="words"><span>in</span><span>on</span><span>under</span><span>in front of</span><span>behind</span><span>between</span></div><button class="btn green" id="beginLevel2">Start level 2 →</button></section>
 <section id="level2" class="screen center"><div class="tag" id="level2Room"></div><div class="progress"><div id="level2Bar" class="fill"></div></div><h2 class="level2-heading" id="placementInstruction"></h2><div id="placementScene" class="scene placement-scene" aria-label="Choose a spot for the monster"></div><div class="monster-tray"><span>Move me!</span><button id="dragMonster" class="drag-monster" type="button" aria-label="Drag the monster, or tap then select a spot">👾</button><span class="helper">Drag or tap, then pick a glowing spot</span></div><p id="placementMessage" class="placement-message" role="status" aria-live="polite"></p><div class="row"><button class="btn secondary" id="placementNext" style="display:none">Next room →</button></div><p class="small" id="level2Count"></p></section>
-<section id="finish" class="screen center"><div id="confetti">⭐ 🎉 ⭐</div><h1>Hooray, Monster Explorer!</h1><p class="subtitle">You found the monster and put it in the right place!</p><p id="pupilResult"></p><div class="score" id="score"></div><p class="small">Combined first-attempt score across both levels (out of 12).</p><div id="summary" class="summary"></div><div class="row"><button class="btn green" id="download">⬇ Download results (CSV)</button><button class="btn secondary" id="print">🖨 Print / Save PDF</button><button class="btn" id="replay">↻ Play again</button></div><div class="teacher"><h3>For teachers</h3><p class="helper">This game records each pupil's six first answers and retry count within this session. Download the CSV to store the results. It does <strong>not</strong> automatically send data to Canva Sheets or any online database.</p></div></section>
+<section id="finish" class="screen center"><div id="confetti">⭐ 🎉 ⭐</div><h1>Hooray, Monster Explorer!</h1><p class="subtitle">You found the monster and put it in the right place!</p><p id="pupilResult"></p><div class="score" id="score"></div><p class="small">Combined first-attempt score across both levels (out of 12).</p><div id="summary" class="summary"></div><div class="row"><button class="btn green" id="download">⬇ Download results (CSV)</button><button class="btn secondary" id="print">🖨 Print / Save PDF</button><button class="btn" id="replay">↻ Play again</button></div><div class="teacher"><h3>Teacher results</h3><p id="submissionStatus" role="status" aria-live="polite">Results have not yet been sent.</p><button class="btn secondary" id="retrySubmit" type="button" style="display:none">Try sending again</button><p class="helper">Results are sent to the teacher’s Google Sheet when the game ends. Because Google Apps Script does not allow this page to read the response, confirm delivery by checking the Sheet. Download the CSV as a backup.</p></div></section>
 </main></div>
 <script>
 'use strict';
@@ -48,7 +48,9 @@ const lessons=[
 {room:'Cellar',preposition:'behind',object:'the barrel',scene:'behind',element:'<div class="thing barrel"></div>',choices:['behind','in front of','on'],hint:'The monster is at the back of the barrel.'},
 {room:'Library',preposition:'between',object:'the two bookcases',scene:'between',element:'<div class="bookcase left"></div><div class="bookcase right"></div>',choices:['under','in','between'],hint:'The monster is in the middle of two bookcases.'}
 ];
+const RESULTS_URL='https://script.google.com/macros/s/AKfycbzMrVE5Q_9Wx0ERnmBP47ED2qcPjWvyss-v80pkC6IdWICCGohMgM0sYjs1GqDTOobW/exec';
 let tourIndex=0,questionIndex=0,answers=[],firstAttempts=[],retryCounts=[],pupil={};
+let sendingResults=false;
 let placementIndex=0,placementFirst=[],placementAttempts=[],placementRetries=[],placementSolved=false,selectedMonster=false;
 const $=id=>document.getElementById(id);
 function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('active',s.id===id));window.scrollTo({top:0,behavior:'instant'})}
@@ -59,7 +61,7 @@ $('identity').addEventListener('submit',e=>{e.preventDefault();pupil={name:$('st
 function renderTour(){const l=lessons[tourIndex];$('tourRoom').textContent=l.room;$('tourScene').innerHTML=makeScene(l);$('tourText').innerHTML=`The monster is <span class="highlight">${l.preposition}</span> ${l.object}.`;$('tourCount').textContent=`Learning ${tourIndex+1} of 6`;$('tourBack').style.visibility=tourIndex===0?'hidden':'visible';$('tourNext').textContent=tourIndex===5?'Start the game →':'Next room →';show('tour')}
 $('tourBack').onclick=()=>{tourIndex--;renderTour()};$('tourNext').onclick=()=>{if(tourIndex===5)show('intro');else{tourIndex++;renderTour()}};
 $('play').onclick=startGame;
-function startGame(){placementIndex=0;placementFirst=Array(6).fill(false);placementAttempts=Array(6).fill(null);placementRetries=Array(6).fill(0);questionIndex=0;answers=Array(6).fill(null);firstAttempts=Array(6).fill(false);retryCounts=Array(6).fill(0);renderQuestion()}
+function startGame(){sendingResults=false;placementIndex=0;placementFirst=Array(6).fill(false);placementAttempts=Array(6).fill(null);placementRetries=Array(6).fill(0);questionIndex=0;answers=Array(6).fill(null);firstAttempts=Array(6).fill(false);retryCounts=Array(6).fill(0);renderQuestion()}
 function renderQuestion(){const l=lessons[questionIndex];$('gameRoom').textContent=`Room ${questionIndex+1} · ${l.room}`;$('bar').style.width=`${questionIndex/6*100}%`;$('gameScene').innerHTML=makeScene(l);$('gameText').textContent=`The monster is _____ ${l.object}.`;$('qCount').textContent=`Question ${questionIndex+1} of 6`;$('options').innerHTML='';l.choices.forEach((choice,i)=>{const button=document.createElement('button');button.className='option';button.textContent=`${'ABC'[i]}. ${choice}`;button.addEventListener('click',()=>choose(choice));$('options').appendChild(button)});show('game')}
 function choose(choice){const l=lessons[questionIndex];if(answers[questionIndex]===null){answers[questionIndex]=choice;firstAttempts[questionIndex]=choice===l.preposition}const correct=choice===l.preposition;playEffect(correct?'right':'wrong');if(!correct)retryCounts[questionIndex]++;$('feedbackFace').textContent=correct?'🥳':'🤔';$('feedbackTitle').textContent=correct?'You Found Me!':'Oops! Try Again!';$('feedbackText').textContent=correct?`The monster is ${l.preposition} ${l.object}.`:l.hint;$('feedbackButton').textContent=correct?(questionIndex===5?'Go to level 2 →':'Next room →'):'Try again ↻';$('feedbackButton').onclick=correct?()=>{if(questionIndex===5)show('level2intro');else{questionIndex++;renderQuestion()}}:renderQuestion;show('feedback')}
 function renderFinish(){
@@ -68,7 +70,47 @@ function renderFinish(){
  $('score').textContent=`${one+two} / 12`;
  $('summary').innerHTML=`<h3>Level 1 · Find the monster (${one}/6)</h3>`+lessons.map((l,i)=>`<div class="resultline"><span><strong>${l.preposition}</strong> · ${l.room}</span><span>${firstAttempts[i]?'✅':'🔁'} (${retryCounts[i]} retries)</span></div>`).join('')+`<h3>Level 2 · Put the monster in place (${two}/6)</h3>`+lessons.map((l,i)=>`<div class="resultline"><span><strong>${l.preposition}</strong> · ${l.room}</span><span>${placementFirst[i]?'✅':'🔁'} (${placementRetries[i]} retries)</span></div>`).join('');
  playEffect('win');show('finish');
+ sendResults();
 }
+function resultPayload(){
+ const one=firstAttempts.filter(Boolean).length;
+ const two=placementFirst.filter(Boolean).length;
+ const mastery={};
+ lessons.forEach((lesson,i)=>{
+   mastery[lesson.preposition]=`${Number(firstAttempts[i])}/1 level 1; ${Number(placementFirst[i])}/1 level 2`;
+ });
+ const difficult=lessons.filter((lesson,i)=>!firstAttempts[i]||!placementFirst[i]).map(lesson=>lesson.preposition);
+ return {
+   name:pupil.name, className:pupil.className, date:pupil.date,
+   level1Score:one, level2Score:two, totalScore:one+two,
+   mastery,
+   notes:difficult.length?'Needs practice: '+difficult.join(', '):'All six mastered',
+   level1Answers:answers,
+   level1Retries:retryCounts,
+   level2Retries:placementRetries
+ };
+}
+async function sendResults(){
+ if(sendingResults)return;
+ sendingResults=true;
+ const label=$('submissionStatus');
+ $('retrySubmit').style.display='none';
+ label.textContent='Sending results to the teacher’s Google Sheet…';
+ try{
+   // text/plain with JSON body matches the Apps Script doPost(e) receiver.
+   // no-cors is required for GitHub Pages → Apps Script; the response is opaque.
+   await fetch(RESULTS_URL,{
+     method:'POST',mode:'no-cors',redirect:'follow',
+     headers:{'Content-Type':'text/plain;charset=utf-8'},
+     body:JSON.stringify(resultPayload())
+   });
+   label.textContent='Results submission attempted. Ask your teacher to check Google Sheets to confirm it arrived.';
+ }catch(err){
+   label.textContent='Could not send the results. Please try again, or download the CSV backup.';
+   $('retrySubmit').style.display='inline-block';
+ }finally{sendingResults=false;}
+}
+$('retrySubmit').onclick=sendResults;
 $('replay').onclick=startGame;$('print').onclick=()=>window.print();
 function csvCell(v){return '"'+String(v??'').replace(/"/g,'""')+'"'}
 $('download').onclick=()=>{const header=['Student Name','Class','Date',...lessons.map(l=>l.preposition+' first answer'),...lessons.map(l=>l.preposition+' correct (1/0)'),'Total /6',...lessons.map(l=>l.preposition+' retries'),...lessons.map(l=>'level 2 '+l.preposition+' correct (1/0)'),...lessons.map(l=>'level 2 '+l.preposition+' retries'),'Level 2 /6','Combined /12'];const row=[pupil.name,pupil.className,pupil.date,...answers,...firstAttempts.map(Number),firstAttempts.filter(Boolean).length,...retryCounts,...placementFirst.map(Number),...placementRetries,placementFirst.filter(Boolean).length,firstAttempts.filter(Boolean).length+placementFirst.filter(Boolean).length];const csv='\uFEFF'+[header,row].map(r=>r.map(csvCell).join(',')).join('\r\n');const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}),url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=`monster_results_${pupil.name.replace(/[^a-z0-9_-]/gi,'_')}.csv`;a.click();setTimeout(()=>URL.revokeObjectURL(url),500)};
